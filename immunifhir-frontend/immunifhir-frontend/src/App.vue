@@ -1,6 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import LoginForm from './components/LoginForm.vue'
+import LoginForm from './components/LoginForm.vue';
+import PatientSearch from './components/PatientSearch.vue'
 </script>
 
 <template>

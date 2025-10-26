@@ -1,44 +1,39 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-50">
-      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div class="text-center mb-8">
-          <div class="mx-auto w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
-            <span class="text-white text-2xl font-bold">+</span>
+    <div class="login-container">
+      <div class="login-box">
+        <div class="login-header">
+          <div class="logo-icon">
+            <span>+</span>
           </div>
-          <h1 class="text-2xl font-bold text-gray-900">ImmuniFHIR</h1>
-          <p class="text-gray-600 mt-2">Healthcare Provider Portal</p>
+          <h1>ImmuniFHIR</h1>
+          <p>Healthcare Provider Portal</p>
         </div>
-        <form @submit.prevent="handleLogin" class="space-y-6">
-          <div>
+        <form @submit.prevent="handleLogin">
+          <div class="form-field">
             <input
               v-model="email"
               type="email"
               required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Email"
             />
           </div>
 
-          <div>
+          <div class="form-field">
             <input
               v-model="password"
               type="password"
               required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Password"
             />
           </div>
 
-          <button
-            type="submit"
-            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
-            title="Login"
-          >
+          <button type="submit">
+            Sign In
           </button>
         </form>
 
-        <div class="mt-6 text-center">
-          <a href="#" class="text-sm text-blue-600 hover:underline">
-            No authorized healthcare provider? ›
-          </a>
+        <div class="footer-link">
+          <a href="#">No authorized healthcare provider? ›</a>
         </div>
       </div>
     </div>
@@ -56,3 +51,79 @@
     alert('login button hit')
   }
   </script>
+
+  <style scoped>
+  .login-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f5f5f5;
+    display: grid;
+    place-items: center;
+  }
+
+  .login-box {
+    background: white;
+    padding: 40px;
+    width: 400px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .logo-icon {
+    width: 60px;
+    height: 60px;
+    background: #5b51d8;
+    margin: 0 auto 20px;
+    display: grid;
+    place-items: center;
+  }
+
+  .logo-icon span {
+    color: white;
+    font-size: 30px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #000;
+  }
+
+  p {
+    margin: 5px 0 0 0;
+    color: #666;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    background: white;
+    color: #000;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #5b51d8;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #5b51d8;
+    font-size: 14px;
+  }
+  </style>
