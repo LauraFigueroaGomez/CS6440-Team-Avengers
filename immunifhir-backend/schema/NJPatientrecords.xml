@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<NJMockData state="New Jersey">
+  <Provider>
+    <ProviderID>PROV001</ProviderID>
+    <Name>Dr. Emily Carter</Name>
+    <NPI>1456789012</NPI>
+    <Organization>Garden State Health</Organization>
+    <Address>100 Park Ave, Newark, NJ</Address>
+    <Phone>973-555-7890</Phone>
+  </Provider>
+  <Patient>
+    <PatientID>PAT1001</PatientID>
+    <FirstName>Michael</FirstName>
+    <LastName>Johnson</LastName>
+    <DOB>1982-04-10</DOB>
+    <Gender>Male</Gender>
+    <Address>200 Broad St, Newark, NJ</Address>
+    <Phone>973-555-2345</Phone>
+    <Email>michael.johnson@example.com</Email>
+  </Patient>
+  <ImmunizationRecord>
+    <RecordID>IMM1001</RecordID>
+    <PatientID>PAT1001</PatientID>
+    <ProviderID>PROV001</ProviderID>
+    <VaccineCode>207</VaccineCode>
+    <VaccineName>COVID-19 Vaccine</VaccineName>
+    <Status>completed</Status>
+    <DateAdministered>2024-05-02</DateAdministered>
+    <LotNumber>NJLOT001</LotNumber>
+    <Site>Left Arm</Site>
+    <Route>IM</Route>
+    <DoseQuantity>0.5 mL</DoseQuantity>
+    <Notes>No adverse reaction</Notes>
+  </ImmunizationRecord>
+  <ImmunizationRecord>
+    <RecordID>IMM1002</RecordID>
+    <PatientID>PAT1001</PatientID>
+    <ProviderID>PROV001</ProviderID>
+    <VaccineCode>140</VaccineCode>
+    <VaccineName>Influenza, seasonal</VaccineName>
+    <Status>completed</Status>
+    <DateAdministered>2023-10-15</DateAdministered>
+    <LotNumber>NJLOT002</LotNumber>
+    <Site>Right Arm</Site>
+    <Route>IM</Route>
+    <DoseQuantity>0.5 mL</DoseQuantity>
+    <Notes>Mild soreness at injection site</Notes>
+  </ImmunizationRecord>
+</NJMockData>
