@@ -1,24 +1,16 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import LoginForm from './components/LoginForm.vue';
-import PatientSearch from './components/PatientSearch.vue'
-</script>
-
 <template>
-  <LoginForm/>
+  <router-view />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script>
+export default {
+  name: 'App'
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+</script>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>

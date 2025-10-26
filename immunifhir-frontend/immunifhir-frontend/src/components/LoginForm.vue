@@ -40,15 +40,20 @@
   </template>
 
   <script setup>
-  //imports 
+  //imports
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
-  const email = ref('')      
-  const password = ref('')   
+  const router = useRouter()
+  const email = ref('')
+  const password = ref('')
 
   const handleLogin = () => {
-
-    alert('login button hit')
+    if (email.value && password.value) {
+      router.push('/search')
+    } else {
+      alert('Please enter email and password')
+    }
   }
   </script>
 
