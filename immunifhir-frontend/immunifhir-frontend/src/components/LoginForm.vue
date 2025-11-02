@@ -43,16 +43,38 @@
   //imports
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { supabase } from '../lib/supabase'
 
   const router = useRouter()
   const email = ref('')
   const password = ref('')
+  const loading = ref(false)
 
-  const handleLogin = () => {
-    if (email.value && password.value) {
-      router.push('/search')
-    } else {
+  const handleLogin = async () => {
+    if (!email.value || !password.value) {
       alert('Please enter email and password')
+      return
+    }
+
+    loading.value = true
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.value,
+        password: password.value
+      })
+
+      if (error) {
+        alert('Login failed: ' + error.message)
+      } else if (data.user) {
+        // login successful
+        console.log('Logged in:', data.user.email)
+        router.push('/search')
+      }
+    } catch (err) {
+      alert('Something went wrong')
+    } finally {
+      loading.value = false
     }
   }
   </script>

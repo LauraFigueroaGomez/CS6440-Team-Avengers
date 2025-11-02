@@ -20,7 +20,6 @@
             <input
               v-model="firstName"
               type="text"
-              placeholder="John"
             />
           </div>
 
@@ -29,7 +28,6 @@
             <input
               v-model="lastName"
               type="text"
-              placeholder="Doe"
             />
           </div>
 
@@ -48,24 +46,58 @@
         </button>
       </form>
 
-      <div class="info-box">
-        <span class="icon">ℹ️</span>
+      <div class="info-box" v-if="!showResults">
         <div>
           <strong>Multi-State Query</strong>
           <p>This search queries 3 state immunization registries simultaneously. Typically completes in 2-5 seconds.</p>
         </div>
+      </div>
+
+      <div v-if="showResults" class="results-section">
+        <div class="results-header">
+          <h3>Search Results</h3>
+          <button @click="clearSearch">New Search</button>
+        </div>
+        <p>Found 1 patient matching your search</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Date of Birth</th>
+              <th>Records Found</th>
+              <th>State Sources</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ searchResult.lastName }}, {{ searchResult.firstName }}</td>
+              <td>{{ searchResult.dob }}</td>
+              <td>3</td>
+              <td>NY, NJ, PA</td>
+              <td>
+                <button @click="viewDetails">View Details</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
 </template>
 
 <script>
+import mockData from '../data/mockPatients.json'
+
 export default {
   data() {
     return {
       firstName: '',
       lastName: '',
-      dob: ''
+      dob: '',
+      showResults: false,
+      searchResult: null
     }
   },
   methods: {
@@ -75,13 +107,21 @@ export default {
         return
       }
 
-      const searchData = {
-        first: this.firstName,
-        last: this.lastName,
-        birthdate: this.dob
-      }
-
-      console.log('Searching for:', searchData)
+      // fake search - just show the mock data
+      setTimeout(() => {
+        this.searchResult = mockData.patients[0]
+        this.showResults = true
+      }, 500)
+    },
+    clearSearch() {
+      this.showResults = false
+      this.searchResult = null
+      this.firstName = ''
+      this.lastName = ''
+      this.dob = ''
+    },
+    viewDetails() {
+      this.$router.push('/patient/P001')
     }
   }
 }
@@ -166,13 +206,15 @@ form {
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 15px;
-  background: #fafafa;
+  background: white;
+  color: #000;
 }
 
 .field input:focus {
   outline: none;
   border-color: #5b51d8;
   background: white;
+  color: #000;
 }
 
 .search-btn {
@@ -220,6 +262,71 @@ form {
   margin: 0;
   font-size: 13px;
   line-height: 1.4;
+}
+
+.results-section {
+  margin-top: 30px;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.results-section p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.results-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.results-header button {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  font-weight: normal;
+  color: #333;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  color: #000;
+  background: white;
+}
+
+td button {
+  padding: 6px 12px;
+  background: #5b51d8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 @media (max-width: 640px) {

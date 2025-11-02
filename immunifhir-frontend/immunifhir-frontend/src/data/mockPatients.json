@@ -1,0 +1,54 @@
+{
+  "patients": [
+    {
+      "id": "P001",
+      "firstName": "John",
+      "lastName": "Doe",
+      "dob": "01/14/1990",
+      "age": 35,
+      "gender": "Male",
+      "mrn": "P001",
+      "address": "New York, NY 10001",
+      "immunizations": [
+        {
+          "date": "12/21/2024",
+          "vaccine": "COVID-19",
+          "manufacturer": "Pfizer-BioNTech",
+          "dose": "Booster",
+          "lot": "LOT657T8F",
+          "provider": "Newark Medical Center",
+          "location": "Newark, NJ",
+          "state": "NJ",
+          "status": "Valid"
+        },
+        {
+          "date": "08/16/2024",
+          "vaccine": "Influenza",
+          "manufacturer": "Seasonal",
+          "dose": "Dose 1 of 2",
+          "lot": "LOTJLECUA",
+          "provider": "Newark Medical Center",
+          "location": "Newark, NJ",
+          "state": "NJ",
+          "status": "Valid"
+        },
+        {
+          "date": "04/08/2024",
+          "vaccine": "Varicella",
+          "manufacturer": "",
+          "dose": "Booster",
+          "lot": "LOTAG6WJW",
+          "provider": "NYC Health Clinic",
+          "location": "New York, NY",
+          "state": "NY",
+          "status": "Valid"
+        }
+      ],
+      "stateSummary": {
+        "NY": { "count": 1, "status": "Connected", "lastUpdate": "2020-2024" },
+        "NJ": { "count": 2, "status": "Connected", "lastUpdate": "2021-2024" },
+        "PA": { "count": 0, "status": "Connected", "lastUpdate": "2020-2024" }
+      }
+    }
+  ]
+}
