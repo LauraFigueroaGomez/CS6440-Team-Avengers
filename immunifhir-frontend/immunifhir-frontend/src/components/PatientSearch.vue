@@ -7,6 +7,7 @@
           <span>Multi-State Registry Access</span>
         </div>
       </div>
+      <button @click="handleLogout" class="logout-btn">Log Out</button>
     </header>
 
     <main>
@@ -47,7 +48,7 @@
       </form>
 
       <div class="info-box" v-if="!showResults">
-        <div>
+        <div style="text-align: center; width: 100%;">
           <strong>Multi-State Query</strong>
           <p>This search queries 3 state immunization registries simultaneously. Typically completes in 2-5 seconds.</p>
         </div>
@@ -89,6 +90,7 @@
 
 <script>
 import mockData from '../data/mockPatients.json'
+import { logout } from '../lib/auth'
 
 export default {
   data() {
@@ -122,6 +124,10 @@ export default {
     },
     viewDetails() {
       this.$router.push('/patient/P001')
+    },
+    async handleLogout() {
+      await logout()
+      this.$router.push('/')
     }
   }
 }
@@ -141,8 +147,19 @@ export default {
 header {
   background: white;
   padding: 16px 24px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  color: #333;
+  font-size: 14px;
 }
 
 .logo h1 {
@@ -184,8 +201,9 @@ form {
 
 .form-row {
   display: flex;
-  gap: 20px;
-  margin-bottom: 24px;
+  gap: 50px;
+  margin-bottom: 30px;
+  padding: 0 20px;
 }
 
 .field {

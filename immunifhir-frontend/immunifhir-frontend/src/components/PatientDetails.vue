@@ -1,8 +1,11 @@
 <template>
   <div class="details-container">
     <header>
-      <h1>ImmuniFHIR</h1>
-      <span>Patient Details</span>
+      <button @click="goBack" class="back-btn">←</button>
+      <div>
+        <h1>ImmuniFHIR</h1>
+        <span>Patient Details</span>
+      </div>
     </header>
 
     <div class="patient-header">
@@ -16,7 +19,6 @@
       <div class="record-count">
         {{ patient.immunizations.length }} Records
       </div>
-      <button @click="goBack">← Back to Search</button>
     </div>
 
     <div class="state-cards">
@@ -93,6 +95,14 @@ header {
   background: white;
   padding: 15px;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+header div {
+  text-align: center;
+  flex: 1;
 }
 
 header h1 {
@@ -132,15 +142,13 @@ header span {
   color: #333;
 }
 
-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  padding: 8px 15px;
+.back-btn {
+  padding: 8px 12px;
   background: white;
   border: 1px solid #ddd;
   cursor: pointer;
   color: #333;
+  font-size: 20px;
 }
 
 .state-cards {
