@@ -8,6 +8,12 @@
       </div>
     </header>
 
+    <div v-if="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading patient data...</p>
+    </div>
+
+    <div v-else>
     <div class="patient-header">
       <div class="patient-info">
         <h2>{{ patient.lastName }}, {{ patient.firstName }}</h2>
@@ -34,20 +40,38 @@
     <div class="history-section">
       <h3>Immunization History ({{ patient.immunizations.length }} records)</h3>
 
+      <div style="margin-bottom: 15px;">
+        <input
+          v-model="filterText"
+          type="text"
+          placeholder="Filter by vaccine, provider, location..."
+          style="width: 300px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+        />
+      </div>
+
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Vaccine Name</th>
+            <th @click="sortTable('date')" style="cursor: pointer">
+              Date
+              <span v-if="sortColumn === 'date'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+            </th>
+            <th @click="sortTable('vaccine')" style="cursor: pointer">
+              Vaccine Name
+              <span v-if="sortColumn === 'vaccine'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+            </th>
             <th>Dose</th>
             <th>Lot Number</th>
             <th>Provider</th>
-            <th>State</th>
+            <th @click="sortTable('state')" style="cursor: pointer">
+              State
+              <span v-if="sortColumn === 'state'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
+            </th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="record in patient.immunizations" :key="record.lot">
+          <tr v-for="record in sortedImmunizations" :key="record.lot">
             <td>{{ record.date }}</td>
             <td>{{ record.vaccine }} {{ record.manufacturer ? `(${record.manufacturer})` : '' }}</td>
             <td>{{ record.dose }}</td>
@@ -59,6 +83,7 @@
         </tbody>
       </table>
     </div>
+    </div>
   </div>
 </template>
 
@@ -68,12 +93,66 @@ import mockData from '../data/mockPatients.json'
 export default {
   data() {
     return {
-      patient: mockData.patients[0]
+      patient: null,
+      loading: true,
+      sortColumn: null,
+      sortDirection: 'asc',
+      filterText: ''
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      const patientId = this.$route.params.id
+      this.patient = mockData.patients.find(p => p.id === patientId) || mockData.patients[0]
+      this.loading = false
+    }, 1000)
   },
   methods: {
     goBack() {
       this.$router.push('/search')
+    },
+    sortTable(column) {
+      if (this.sortColumn === column) {
+        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc'
+      } else {
+        this.sortColumn = column
+        this.sortDirection = 'asc'
+      }
+    }
+  },
+  computed: {
+    sortedImmunizations() {
+      if (!this.patient) return []
+
+      let records = [...this.patient.immunizations]
+
+      if (this.filterText) {
+        const searchText = this.filterText.toLowerCase()
+        records = records.filter(r =>
+          r.vaccine.toLowerCase().includes(searchText) ||
+          r.provider.toLowerCase().includes(searchText) ||
+          r.location.toLowerCase().includes(searchText) ||
+          r.state.toLowerCase().includes(searchText)
+        )
+      }
+
+      if (!this.sortColumn) return records
+
+      records.sort((a, b) => {
+        let aVal = a[this.sortColumn]
+        let bVal = b[this.sortColumn]
+
+        if (this.sortColumn === 'date') {
+          aVal = new Date(aVal).getTime()
+          bVal = new Date(bVal).getTime()
+        }
+
+        if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1
+        if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1
+        return 0
+      })
+
+      return records
     }
   }
 }
@@ -218,5 +297,32 @@ td {
   padding: 10px;
   border-bottom: 1px solid #eee;
   color: #333;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px;
+}
+
+.loading-container p {
+  margin-top: 20px;
+  color: #666;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #5b51d8;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>

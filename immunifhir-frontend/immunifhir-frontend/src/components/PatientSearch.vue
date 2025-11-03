@@ -7,7 +7,9 @@
           <span>Multi-State Registry Access</span>
         </div>
       </div>
-      <button @click="handleLogout" class="logout-btn">Log Out</button>
+      <button @click="handleLogout" class="logout-btn" :disabled="loggingOut">
+        {{ loggingOut ? 'Logging out...' : 'Log Out' }}
+      </button>
     </header>
 
     <main>
@@ -41,9 +43,9 @@
           </div>
         </div>
 
-        <button type="submit" class="search-btn">
-          <span>🔍</span>
-          Search All States
+        <button type="submit" class="search-btn" :disabled="loading">
+          <span v-if="loading" class="spinner"></span>
+          {{ loading ? 'Searching...' : 'Search All States' }}
         </button>
       </form>
 
@@ -59,7 +61,7 @@
           <h3>Search Results</h3>
           <button @click="clearSearch">New Search</button>
         </div>
-        <p>Found 1 patient matching your search</p>
+        <p>Found {{ searchResults.length }} patients matching your search</p>
 
         <table>
           <thead>
@@ -72,13 +74,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{{ searchResult.lastName }}, {{ searchResult.firstName }}</td>
-              <td>{{ searchResult.dob }}</td>
-              <td>3</td>
+            <tr v-for="patient in searchResults" :key="patient.id">
+              <td>{{ patient.lastName }}, {{ patient.firstName }}</td>
+              <td>{{ patient.dob }}</td>
+              <td>{{ patient.immunizations.length }}</td>
               <td>NY, NJ, PA</td>
               <td>
-                <button @click="viewDetails">View Details</button>
+                <button @click="viewDetails(patient.id)">View Details</button>
               </td>
             </tr>
           </tbody>
@@ -99,7 +101,9 @@ export default {
       lastName: '',
       dob: '',
       showResults: false,
-      searchResult: null
+      searchResults: [],
+      loading: false,
+      loggingOut: false
     }
   },
   methods: {
@@ -109,25 +113,36 @@ export default {
         return
       }
 
-      // fake search - just show the mock data
+      this.loading = true
+      this.showResults = false
+
+      // fake search - just show all the mock data
       setTimeout(() => {
-        this.searchResult = mockData.patients[0]
+        this.loading = false
+        // just return all patients for now
+        this.searchResults = mockData.patients
         this.showResults = true
-      }, 500)
+      }, 1500)
     },
     clearSearch() {
       this.showResults = false
-      this.searchResult = null
+      this.searchResults = []
       this.firstName = ''
       this.lastName = ''
       this.dob = ''
     },
-    viewDetails() {
-      this.$router.push('/patient/P001')
+    viewDetails(patientId) {
+      this.$router.push('/patient/' + patientId)
     },
     async handleLogout() {
-      await logout()
-      this.$router.push('/')
+      this.loggingOut = true
+      try {
+        await logout()
+        this.$router.push('/')
+      } catch (error) {
+        alert('Logout failed')
+        this.loggingOut = false
+      }
     }
   }
 }
@@ -160,6 +175,12 @@ header {
   cursor: pointer;
   color: #333;
   font-size: 14px;
+}
+
+.logout-btn:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+  color: #9ca3af;
 }
 
 .logo h1 {
@@ -245,6 +266,7 @@ form {
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   margin: 0 auto;
   font-weight: 500;
@@ -252,6 +274,25 @@ form {
 
 .search-btn:hover {
   background: #4c43b8;
+}
+
+.search-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .info-box {

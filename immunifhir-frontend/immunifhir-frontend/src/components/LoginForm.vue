@@ -27,8 +27,9 @@
             />
           </div>
 
-          <button type="submit">
-            Sign In
+          <button type="submit" :disabled="loading">
+            <span v-if="loading" class="spinner"></span>
+            {{ loading ? 'Signing in...' : 'Sign In' }}
           </button>
         </form>
 
@@ -144,6 +145,29 @@
     color: white;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   a {
