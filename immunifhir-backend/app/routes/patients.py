@@ -11,9 +11,9 @@ repo = PatientRepository()
 def create_patient(payload: PatientCreate, user=Depends(verify_token)):
     return repo.create(payload)
 
-@router.get("/patients/{id}", response_model=Patient, summary="Get patient by ID")
-async def get_patient(id: str):
-    patient = repo.get(id)
+@router.get("/{patient_id}", response_model=Patient, summary="Get patient by ID")
+async def get_patient(patient_id: str):
+    patient = repo.get(patient_id)
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
     return patient
