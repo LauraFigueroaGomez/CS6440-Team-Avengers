@@ -16,7 +16,6 @@ class ProviderRepository:
     def get(self, provider_id: str) -> Optional[Provider]:
         logger.debug("get provider called with id=%s", provider_id)
 
-        # validate UUID early
         try:
             uuid.UUID(provider_id)
         except (ValueError, TypeError):
@@ -29,7 +28,6 @@ class ProviderRepository:
             logger.exception("PostgREST APIError while fetching provider id=%s", provider_id)
             return None
 
-        # log full response for debugging
         logger.debug("supabase response error=%s data=%s", getattr(res, "error", None), getattr(res, "data", None))
 
         if not res.data:
