@@ -15,7 +15,7 @@ class ImmunizationBase(BaseModel):
     route: Optional[str] = None
     dose_quantity: Optional[str] = None
     notes: Optional[str] = None
-    source_state: Optional[str] = None  # "NY"|"NJ"|"PA" if you want to track origin
+    source_state: Optional[str] = None
 
 class ImmunizationCreate(ImmunizationBase):
     pass
