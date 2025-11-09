@@ -28,5 +28,5 @@ It integrates with external **FHIR servers** to exchange healthcare information 
 - pip install -r requirements.txt
 - export SUPABASE_URL="askteam"
 - export SUPABASE_KEY="askteam"
-- uvicornapp.main:app --reload
+- uvicorn app.main:app --reload
 - The app will be available at http://127.0.0.1:8000
