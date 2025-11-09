@@ -19,7 +19,7 @@ class DataParserService:
             if not hl7_message or not isinstance(hl7_message, str):
                 raise ValueError("Invalid HL7 message format")
 
-            # split on \r or \n
+            # Split message into segments and parse manually
             segments = [s for s in re.split(r'[\r\n]+', hl7_message.strip()) if s]
             if not segments or not any(seg.startswith('MSH|') for seg in segments):
                 raise ValueError("Invalid HL7 message: Missing MSH segment")
