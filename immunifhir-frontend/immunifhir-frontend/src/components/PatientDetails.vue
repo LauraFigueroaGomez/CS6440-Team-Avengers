@@ -9,11 +9,12 @@
     </header>
 
     <div v-if="loading" class="loading-container">
-      <div class="spinner"></div>
-      <p>Loading patient data...</p>
-    </div>
+    <div class="spinner"></div>
+    <p>Loading patient data...</p>
+  </div>
 
-    <div v-else>
+  <!-- Only render details if patient is loaded -->
+  <div v-else-if="patient">
     <div class="patient-header">
       <div class="patient-info">
         <h2>{{ patient.lastName }}, {{ patient.firstName }}</h2>
@@ -84,11 +85,14 @@
       </table>
     </div>
     </div>
+    <div v-else class="loading-container">
+      <p>Patient not found.</p>
+    </div>
   </div>
 </template>
 
 <script>
-import mockData from '../data/mockPatients.json'
+import { getPatientDetails } from '../lib/api'
 
 export default {
   data() {
@@ -100,12 +104,18 @@ export default {
       filterText: ''
     }
   },
-  mounted() {
-    setTimeout(() => {
+  async mounted() {
+    this.loading = true
+    try {
       const patientId = this.$route.params.id
-      this.patient = mockData.patients.find(p => p.id === patientId) || mockData.patients[0]
+      this.patient = await getPatientDetails(patientId)
+      console.log('Loaded patient details:', this.patient)
+    } catch (err) {
+      console.error('Error loading patient details:', err)
+      alert('Error loading patient details. Check console for more info.')
+    } finally {
       this.loading = false
-    }, 1000)
+    }
   },
   methods: {
     goBack() {
@@ -122,17 +132,17 @@ export default {
   },
   computed: {
     sortedImmunizations() {
-      if (!this.patient) return []
+      if (!this.patient || !this.patient.immunizations) return []
 
       let records = [...this.patient.immunizations]
 
       if (this.filterText) {
         const searchText = this.filterText.toLowerCase()
         records = records.filter(r =>
-          r.vaccine.toLowerCase().includes(searchText) ||
-          r.provider.toLowerCase().includes(searchText) ||
-          r.location.toLowerCase().includes(searchText) ||
-          r.state.toLowerCase().includes(searchText)
+          (r.vaccine || '').toLowerCase().includes(searchText) ||
+          (r.provider || '').toLowerCase().includes(searchText) ||
+          (r.location || '').toLowerCase().includes(searchText) ||
+          (r.state || '').toLowerCase().includes(searchText)
         )
       }
 

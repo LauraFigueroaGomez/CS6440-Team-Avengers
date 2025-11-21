@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.routes import patients, immunizations, mock_state, providers, aggregate
 
 app = FastAPI(title="ImmuniFHIR Backend")
@@ -8,6 +9,19 @@ app.include_router(providers.router,     prefix="/providers",     tags=["Provide
 app.include_router(immunizations.router, prefix="/immunizations", tags=["Immunizations"])
 app.include_router(mock_state.router,    prefix="/mock",          tags=["Mock Registries"])
 app.include_router(aggregate.router,     prefix="/aggregate",     tags=["Aggregation"])
+
+origins = [
+    "http://localhost:5173",
+    "https://cs6440-team-avengers-1-frontend.onrender.com/ ",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health", tags=["Health"])
 def health():

@@ -16,7 +16,7 @@
       <h2>Search Patient Records</h2>
       <p>Query immunization records across NY, NJ, and PA state registries</p>
 
-      <form @submit.prevent="searchPatients">
+      <form @submit.prevent="handleSearch">
         <div class="form-row">
           <div class="field">
             <label>First Name *</label>
@@ -77,7 +77,7 @@
             <tr v-for="patient in searchResults" :key="patient.id">
               <td>{{ patient.lastName }}, {{ patient.firstName }}</td>
               <td>{{ patient.dob }}</td>
-              <td>{{ patient.immunizations.length }}</td>
+              <td>{{ patient.recordCount }}</td>
               <td>NY, NJ, PA</td>
               <td>
                 <button @click="viewDetails(patient.id)">View Details</button>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import mockData from '../data/mockPatients.json'
+import { searchPatients } from '../lib/api'
 import { logout } from '../lib/auth'
 
 export default {
@@ -107,29 +107,40 @@ export default {
     }
   },
   methods: {
-    searchPatients() {
-      if (!this.firstName || !this.lastName) {
-        alert('Please enter first and last name')
+    async handleSearch() {
+      if (!this.firstName && !this.lastName && !this.dob) {
+        alert('Please enter at least one search field')
         return
       }
 
       this.loading = true
       this.showResults = false
 
-      // fake search - just show all the mock data
-      setTimeout(() => {
-        this.loading = false
-        // just return all patients for now
-        this.searchResults = mockData.patients
+      try {
+        const patients = await searchPatients({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          dob: this.dob
+        })
+
+        this.searchResults = patients
         this.showResults = true
-      }, 1500)
+      } catch (err) {
+        console.error(err)
+        alert('Error searching patients. Check the console for details.')
+      } finally {
+        this.loading = false
+      }
     },
     clearSearch() {
-      this.showResults = false
-      this.searchResults = []
       this.firstName = ''
       this.lastName = ''
       this.dob = ''
+      this.searchResults = []
+      this.showResults = false
+    },
+    handleRowClick(patient) {
+      this.$router.push(`/patient/${patient.id}`)
     },
     viewDetails(patientId) {
       this.$router.push('/patient/' + patientId)
@@ -139,11 +150,10 @@ export default {
       try {
         await logout()
         this.$router.push('/')
-      } catch (error) {
-        alert('Logout failed')
+      } finally {
         this.loggingOut = false
       }
-    }
+    },
   }
 }
 </script>
