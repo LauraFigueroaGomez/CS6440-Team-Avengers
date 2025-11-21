@@ -4,15 +4,9 @@ from app.routes import patients, immunizations, mock_state, providers, aggregate
 
 app = FastAPI(title="ImmuniFHIR Backend")
 
-app.include_router(patients.router,      prefix="/patients",      tags=["Patients"])
-app.include_router(providers.router,     prefix="/providers",     tags=["Providers"])
-app.include_router(immunizations.router, prefix="/immunizations", tags=["Immunizations"])
-app.include_router(mock_state.router,    prefix="/mock",          tags=["Mock Registries"])
-app.include_router(aggregate.router,     prefix="/aggregate",     tags=["Aggregation"])
-
 origins = [
     "http://localhost:5173",
-    "https://cs6440-team-avengers-1-frontend.onrender.com/ ",
+    "https://cs6440-team-avengers-1-frontend.onrender.com",
 ]
 
 app.add_middleware(
@@ -22,6 +16,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(patients.router,      prefix="/patients",      tags=["Patients"])
+app.include_router(providers.router,     prefix="/providers",     tags=["Providers"])
+app.include_router(immunizations.router, prefix="/immunizations", tags=["Immunizations"])
+app.include_router(mock_state.router,    prefix="/mock",          tags=["Mock Registries"])
+app.include_router(aggregate.router,     prefix="/aggregate",     tags=["Aggregation"])
 
 @app.get("/health", tags=["Health"])
 def health():
