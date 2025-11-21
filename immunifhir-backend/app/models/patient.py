@@ -10,6 +10,7 @@ class PatientBase(BaseModel):
     address: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
+    immunization_count: int = 0
 
 class PatientCreate(PatientBase):
     pass

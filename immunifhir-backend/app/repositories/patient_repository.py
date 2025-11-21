@@ -1,9 +1,9 @@
-
 from typing import List, Optional
 from app.utils.config import supabase
 from app.models.patient import Patient, PatientCreate, PatientSearch
 
 TABLE = "patients"
+SEARCH_VIEW = "patient_search_with_counts"
 
 class PatientRepository:
     def create(self, payload: PatientCreate) -> Patient:
@@ -18,7 +18,8 @@ class PatientRepository:
         return None
 
     def search(self, query: PatientSearch) -> List[Patient]:
-        q = supabase.table(TABLE).select("*")
+        q = supabase.table(SEARCH_VIEW).select("*")
+
         if hasattr(query, "identifier") and query.identifier:
             q = q.eq("identifier", query.identifier)
         if query.first_name:
