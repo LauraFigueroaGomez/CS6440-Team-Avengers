@@ -11,8 +11,8 @@ app.include_router(mock_state.router,    prefix="/mock",          tags=["Mock Re
 app.include_router(aggregate.router,     prefix="/aggregate",     tags=["Aggregation"])
 
 origins = [
-    "http://localhost:5173",          # Vite dev
-    "https://cs6440-team-avengers-1-frontend.onrender.com/ ",   # e.g., Vercel/Render frontend URL
+    "http://localhost:5173",
+    "https://cs6440-team-avengers-1-frontend.onrender.com/ ",
 ]
 
 app.add_middleware(
