@@ -19,37 +19,26 @@ export const apiRequest = async (method, path, { params, body } = {}) => {
 
   let url = `${API_BASE_URL}${path}`
   const qs = buildQueryString(params)
-  if (qs) {
-    url += `?${qs}`
-  }
+  if (qs) url += `?${qs}`
 
-  const headers = {
-    'Content-Type': 'application/json'
-  }
+  const headers = { "Content-Type": "application/json" }
+  if (token) headers.Authorization = `Bearer ${token}`
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
-  }
+  const res = await fetch(url, { method, headers, ...(body ? { body: JSON.stringify(body) } : {}) })
 
-  const res = await fetch(url, {
-    method,
-    headers,
-    ...(body ? { body: JSON.stringify(body) } : {})
-  })
-
-  if (res.status === 401) {
-    // Session expired or invalid token
-    await logout()
-    window.location.href = '/'
-    return
-  }
+  const text = await res.text()   // read as text first
 
   if (!res.ok) {
-    const text = await res.text()
-    throw new Error(text || `Request failed with status ${res.status}`)
+    // show real backend error text (HTML or JSON)
+    throw new Error(`HTTP ${res.status}: ${text}`)
   }
 
-  return res.json()
+  // try parsing JSON only if it looks like JSON
+  try {
+    return JSON.parse(text)
+  } catch {
+    throw new Error(`Expected JSON but got: ${text.slice(0, 120)}...`)
+  }
 }
 
 // GET /patients/search
