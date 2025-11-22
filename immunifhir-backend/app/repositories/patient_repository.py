@@ -36,5 +36,4 @@ class PatientRepository:
         res = q.execute()
         if res.error:
             raise HTTPException(status_code=500, detail=res.error.message)
-
         return [Patient(**row) for row in (res.data or [])]

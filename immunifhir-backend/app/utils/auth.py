@@ -3,15 +3,17 @@ import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET")
-JWT_AUD = "authenticated"  # Supabase default
+JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET", "")
+JWT_AUD = "authenticated"
 bearer_scheme = HTTPBearer(auto_error=False)
 
-if not JWT_SECRET:
-    raise RuntimeError("Missing SUPABASE_JWT_SECRET in environment")
+BYPASS_AUTH = os.getenv("BYPASS_AUTH", "false").lower() == "true"
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
-    print("✅ NEW LOCAL JWT verify_token RUNNING")
+    # ✅ BYPASS FOR DEMO/DEV
+    if BYPASS_AUTH:
+        return {"id": "demo-user", "email": "demo@local", "role": "demo"}
+
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
 
@@ -25,17 +27,12 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(bearer_sche
             audience=JWT_AUD,
             options={"verify_exp": True}
         )
-
-        # Supabase places user id in sub
-        user = {
+        return {
             "id": payload.get("sub"),
             "email": payload.get("email"),
             "role": payload.get("role"),
             "raw": payload
         }
-
-        return user
-
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token expired")
     except jwt.InvalidTokenError:
