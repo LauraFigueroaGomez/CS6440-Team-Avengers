@@ -12,7 +12,7 @@ BYPASS_AUTH = os.getenv("BYPASS_AUTH", "false").lower() == "true"
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
     # ✅ BYPASS FOR DEMO/DEV
     if BYPASS_AUTH:
-        return {"id": "demo-user", "email": "demo@local", "role": "demo"}
+        return {"id": "b96fd25b-7ee3-40b4-9a8c-4cf9c0a365b3", "email": "testing@tester.com", "role": "demo"}
 
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
