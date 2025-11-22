@@ -7,8 +7,9 @@ export const getCurrentUser = async () => {
 
 // Get JWT token
 export const getAuthToken = async () => {
-  const { data: { session } } = await supabase.auth.getSession()
-  return session?.access_token || null
+  const { data, error } = await supabase.auth.getSession()
+  if (error) return null
+  return data?.session?.access_token || null
 }
 
 export const logout = async () => {

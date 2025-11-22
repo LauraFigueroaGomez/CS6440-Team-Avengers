@@ -15,6 +15,7 @@ const buildQueryString = (params = {}) =>
 
 export const apiRequest = async (method, path, { params, body } = {}) => {
   const token = await getAuthToken()
+  console.log("TOKEN?", token ? "yes" : "no")
 
   let url = `${API_BASE_URL}${path}`
   const qs = buildQueryString(params)
