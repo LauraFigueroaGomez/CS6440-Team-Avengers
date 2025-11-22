@@ -1,30 +1,41 @@
 import os
-from supabase import create_client
+import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from app.utils.config import supabase
 
-security = HTTPBearer()
-
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET")
+JWT_AUD = "authenticated"  # Supabase default
 bearer_scheme = HTTPBearer(auto_error=False)
-_sb = create_client(SUPABASE_URL, SUPABASE_KEY) if SUPABASE_URL and SUPABASE_KEY else None
 
-BYPASS_AUTH = os.getenv("BYPASS_AUTH", "false").lower() == "true"
+if not JWT_SECRET:
+    raise RuntimeError("Missing SUPABASE_JWT_SECRET in environment")
 
-def verify_token(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),):
+def verify_token(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
 
     token = credentials.credentials
 
-    # Ask Supabase to validate token and return user
-    res = supabase.auth.get_user(token)
+    try:
+        payload = jwt.decode(
+            token,
+            JWT_SECRET,
+            algorithms=["HS256"],
+            audience=JWT_AUD,
+            options={"verify_exp": True}
+        )
 
-    # supabase-py returns user data in res.user; if invalid, it raises or returns None
-    user = getattr(res, "user", None)
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+        # Supabase places user id in sub
+        user = {
+            "id": payload.get("sub"),
+            "email": payload.get("email"),
+            "role": payload.get("role"),
+            "raw": payload
+        }
 
-    return user
+        return user
+
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
