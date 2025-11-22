@@ -11,6 +11,7 @@ if not JWT_SECRET:
     raise RuntimeError("Missing SUPABASE_JWT_SECRET in environment")
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
+    print("✅ NEW LOCAL JWT verify_token RUNNING")
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
 
