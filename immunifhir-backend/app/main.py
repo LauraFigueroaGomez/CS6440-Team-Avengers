@@ -6,6 +6,7 @@ app = FastAPI(title="ImmuniFHIR Backend")
 
 origins = [
     "http://localhost:5173",
+    "http://localhost:5174",
     "https://cs6440-team-avengers-1-frontend.onrender.com",
 ]
 

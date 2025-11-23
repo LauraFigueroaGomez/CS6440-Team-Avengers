@@ -13,7 +13,28 @@ irepo = ImmunizationRepository()
 state = StateQueryService()
 norm = NormalizationService()
 
-@router.post("/run", summary="Aggregate from mock states → normalize → (optionally) persist")
+@router.post("/live", summary="Aggregate from mock states → normalize → return (no persist)")
+async def live(search: PatientSearch, user=Depends(verify_token)) -> Dict[str, Any]:
+    try:
+        results = await state.fetch_all(search.dict(exclude_none=True))
+        items = norm.aggregate(
+            NY=results.get("NY"),
+            NJ=results.get("NJ"),
+            PA=results.get("PA"),
+        )
+
+        return {
+            "count": len(items),
+            "immunizations": items,
+            "sources": list(results.keys())
+        }
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=f"Normalization error: {str(ve)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Live aggregate failed: {str(e)}")
+
+@router.post("/run", summary="Aggregate from mock states → normalize → persist")
 async def run(search: PatientSearch, user=Depends(verify_token)) -> Dict[str, Any]:
     try:
         matches = prepo.search(search)
