@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<NJMockData state="New Jersey">
+  <Provider>
+    <ProviderID>PROV003</ProviderID>
+    <n>Dr. Kevin O'Neill</n>
+    <NPI>1122334455</NPI>
+    <Organization>Trenton Family Practice</Organization>
+    <Address>44 State St, Trenton, NJ</Address>
+    <Phone>609-555-3434</Phone>
+  </Provider>
+  <Patient>
+    <PatientID>PAT3001</PatientID>
+    <FirstName>Sophia</FirstName>
+    <LastName>Rossi</LastName>
+    <DOB>1987-06-18</DOB>
+    <Gender>Female</Gender>
+    <Address>98 Elmwood Ave, Trenton, NJ</Address>
+    <Phone>609-555-4545</Phone>
+    <Email>sophia.rossi@example.com</Email>
+  </Patient>
+  <ImmunizationRecord>
+    <RecordID>IMM3001</RecordID>
+    <VaccineCode>33</VaccineCode>
+    <VaccineName>MMR</VaccineName>
+    <Status>completed</Status>
+    <DateAdministered>2008-09-12</DateAdministered>
+    <LotNumber>NJ-MMR-3001</LotNumber>
+    <Site>Right Arm</Site>
+    <Route>SC</Route>
+    <DoseQuantity>0.5 mL</DoseQuantity>
+    <Notes>Childhood immunization</Notes>
+  </ImmunizationRecord>
+</NJMockData>
