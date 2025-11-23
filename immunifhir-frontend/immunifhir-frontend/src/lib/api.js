@@ -79,14 +79,30 @@ const computeAge = (dobStr) => {
 }
 
 export const getPatientDetails = async (id) => {
-  // Get patient core demographics
+  // Get patient core demographics first
   const p = await apiRequest('GET', `/patients/${id}`)
 
-  // Get immunizations for that patient
-  const immunizations = await apiRequest(
-    'GET',
-    `/immunizations/by-patient/${id}`
-  )
+  // Build search params for live aggregation
+  const searchData = {
+    first_name: p.first_name,
+    last_name: p.last_name,
+    birth_date: p.birth_date
+  }
+
+  let immunizations = []
+
+  try {
+    // Call live aggregation endpoint
+    const liveResult = await apiRequest('POST', '/aggregate/live', { body: searchData })
+    console.log('Live aggregation:', liveResult.count, 'records from', liveResult.sources)
+
+    // Use the live immunizations
+    immunizations = liveResult.immunizations || []
+  } catch (err) {
+    console.error('Live aggregation failed, falling back to stored data:', err)
+    // Fallback to stored data if live fails
+    immunizations = await apiRequest('GET', `/immunizations/by-patient/${id}`)
+  }
 
   // Build state summary (by state/source_state)
   const stateSummary = {}
