@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<NJMockData state="New Jersey">
+  <Provider>
+    <ProviderID>PROV004</ProviderID>
+    <n>Dr. Priya Desai</n>
+    <NPI>6677889900</NPI>
+    <Organization>Hoboken Health Center</Organization>
+    <Address>77 Hudson St, Hoboken, NJ</Address>
+    <Phone>201-555-5656</Phone>
+  </Provider>
+  <Patient>
+    <PatientID>PAT4001</PatientID>
+    <FirstName>Marcus</FirstName>
+    <LastName>Brown</LastName>
+    <DOB>1965-04-30</DOB>
+    <Gender>Male</Gender>
+    <Address>12 Willow Ln, Hoboken, NJ</Address>
+    <Phone>201-555-6767</Phone>
+    <Email>marcus.brown@example.com</Email>
+  </Patient>
+  <ImmunizationRecord>
+    <RecordID>IMM4001</RecordID>
+    <VaccineCode>88</VaccineCode>
+    <VaccineName>Tetanus-diphtheria</VaccineName>
+    <Status>completed</Status>
+    <DateAdministered>2022-02-20</DateAdministered>
+    <LotNumber>NJ-TD-4001</LotNumber>
+    <Site>Right Arm</Site>
+    <Route>IM</Route>
+    <DoseQuantity>0.5 mL</DoseQuantity>
+    <Notes>Routine booster</Notes>
+  </ImmunizationRecord>
+</NJMockData>

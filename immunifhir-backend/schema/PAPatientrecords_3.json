@@ -1,0 +1,35 @@
+{
+  "state": "Pennsylvania",
+  "provider": {
+    "providerId": "PA-PROV-003",
+    "name": "Nurse Practitioner Sara Kim",
+    "npi": "2233445566",
+    "organization": "Lancaster Community Clinic",
+    "address": "12 Willow Rd, Lancaster, PA",
+    "phone": "717-555-0303"
+  },
+  "patient": {
+    "patientId": "PA1003",
+    "firstName": "Olivia",
+    "lastName": "Martinez",
+    "DOB": "2005-02-28",
+    "gender": "female",
+    "address": "77 Maple St, Lancaster, PA",
+    "phone": "717-555-3333",
+    "email": "olivia.m@example.com"
+  },
+  "immunizations": [
+    {
+      "recordId": "PA-IMM-1004",
+      "vaccineCode": "207",
+      "vaccineName": "COVID-19 Vaccine",
+      "status": "completed",
+      "dateAdministered": "2024-06-08",
+      "lotNumber": "PA-CV-3344",
+      "site": "Left Arm",
+      "route": "IM",
+      "doseQuantity": "0.3 mL",
+      "notes": "Booster dose"
+    }
+  ]
+}

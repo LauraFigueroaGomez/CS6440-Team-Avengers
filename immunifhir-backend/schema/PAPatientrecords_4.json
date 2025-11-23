@@ -1,0 +1,35 @@
+{
+  "state": "Pennsylvania",
+  "provider": {
+    "providerId": "PA-PROV-004",
+    "name": "Dr. Aisha Patel",
+    "npi": "3344556677",
+    "organization": "Reading Family Health",
+    "address": "8 Main St, Reading, PA",
+    "phone": "610-555-0404"
+  },
+  "patient": {
+    "patientId": "PA1004",
+    "firstName": "Samuel",
+    "lastName": "Green",
+    "DOB": "1954-09-09",
+    "gender": "male",
+    "address": "300 Cedar Ln, Reading, PA",
+    "phone": "610-555-4444",
+    "email": "sam.green@example.com"
+  },
+  "immunizations": [
+    {
+      "recordId": "PA-IMM-1005",
+      "vaccineCode": "88",
+      "vaccineName": "Tetanus-diphtheria",
+      "status": "completed",
+      "dateAdministered": "2021-08-15",
+      "lotNumber": "PA-TD-7788",
+      "site": "Right Arm",
+      "route": "IM",
+      "doseQuantity": "0.5 mL",
+      "notes": "Routine adult booster"
+    }
+  ]
+}

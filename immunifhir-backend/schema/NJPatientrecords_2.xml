@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<NJMockData state="New Jersey">
+  <Provider>
+    <ProviderID>PROV002</ProviderID>
+    <n>Dr. Susan Harper</n>
+    <NPI>9876543210</NPI>
+    <Organization>Jersey Shore Clinic</Organization>
+    <Address>12 Ocean Ave, Seaside Heights, NJ</Address>
+    <Phone>732-555-1212</Phone>
+  </Provider>
+  <Patient>
+    <PatientID>PAT2001</PatientID>
+    <FirstName>Andrew</FirstName>
+    <LastName>Lopez</LastName>
+    <DOB>1990-01-22</DOB>
+    <Gender>Male</Gender>
+    <Address>3 Bay St, Seaside Heights, NJ</Address>
+    <Phone>732-555-2323</Phone>
+    <Email>andrew.lopez@example.com</Email>
+  </Patient>
+  <ImmunizationRecord>
+    <RecordID>IMM2001</RecordID>
+    <VaccineCode>140</VaccineCode>
+    <VaccineName>Hepatitis B</VaccineName>
+    <Status>completed</Status>
+    <DateAdministered>2023-11-10</DateAdministered>
+    <LotNumber>NJ-HB-2001</LotNumber>
+    <Site>Left Arm</Site>
+    <Route>IM</Route>
+    <DoseQuantity>1.0 mL</DoseQuantity>
+    <Notes>Administered without issue</Notes>
+  </ImmunizationRecord>
+</NJMockData>

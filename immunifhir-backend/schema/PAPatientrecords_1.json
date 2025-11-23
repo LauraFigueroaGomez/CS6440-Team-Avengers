@@ -1,0 +1,35 @@
+{
+  "state": "Pennsylvania",
+  "provider": {
+    "providerId": "PA-PROV-001",
+    "name": "Dr. Laura Bennett",
+    "npi": "1234567890",
+    "organization": "Keystone Health",
+    "address": "10 Market St, Philadelphia, PA",
+    "phone": "215-555-0101"
+  },
+  "patient": {
+    "patientId": "PA1001",
+    "firstName": "Emily",
+    "lastName": "Stone",
+    "DOB": "1992-07-14",
+    "gender": "female",
+    "address": "45 Chestnut Ave, Philadelphia, PA",
+    "phone": "215-555-1111",
+    "email": "emily.stone@example.com"
+  },
+  "immunizations": [
+    {
+      "recordId": "PA-IMM-1001",
+      "vaccineCode": "207",
+      "vaccineName": "COVID-19 Vaccine",
+      "status": "completed",
+      "dateAdministered": "2024-03-12",
+      "lotNumber": "PA-LT-1001",
+      "site": "Right Arm",
+      "route": "IM",
+      "doseQuantity": "0.5 mL",
+      "notes": "No adverse reaction"
+    }
+  ]
+}
