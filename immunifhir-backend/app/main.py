@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import patients, immunizations, mock_state, providers, aggregate
-from app.routes import fhir
+from app.routes import patients, immunizations, mock_state, providers, aggregate, fhir
 
 app = FastAPI(title="ImmuniFHIR Backend")
 
