@@ -33,5 +33,5 @@ It integrates with external **FHIR servers** to exchange healthcare information 
 
 
 ## Running the Front-End Application 
-- cd immunifhir-frontend 
+- cd immunifhir-frontend/immunifhir-frontend
 - npm run dev 

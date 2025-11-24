@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from app.utils.config import supabase
 from app.models.immunization import Immunization, ImmunizationCreate
 from fastapi.encoders import jsonable_encoder
@@ -15,3 +15,10 @@ class ImmunizationRepository:
     def by_patient(self, patient_id: str) -> List[Immunization]:
         res = supabase.table(TABLE).select("*").eq("patient_id", patient_id).execute()
         return [Immunization(**row) for row in (res.data or [])]
+
+    def get(self, immunization_id: str) -> Optional[Immunization]:
+        """Fetch a single immunization record by its ID."""
+        res = supabase.table(TABLE).select("*").eq("id", immunization_id).execute()
+        if res.data and len(res.data) > 0:
+            return Immunization(**res.data[0])
+        return None
