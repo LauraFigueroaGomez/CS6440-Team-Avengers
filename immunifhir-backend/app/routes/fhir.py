@@ -10,16 +10,16 @@ immunization_repo = ImmunizationRepository()
 fhir_service = FHIRService()
 
 
-@router.get("/Patient/{patient_id}", summary="Get FHIR Patient by ID")
+@router.get("/patient/{patient_id}", summary="Get FHIR Patient by ID")
 async def get_fhir_patient(patient_id: str):
     patient = patient_repo.get(patient_id)
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
 
-    return fhir_service.patient(patient)
+    return fhir_service.patient(patient.dict())
 
 
-@router.get("/Immunization/{immunization_id}", summary="Get FHIR Immunization by ID")
+@router.get("/immunization/{immunization_id}", summary="Get FHIR Immunization by ID")
 async def get_fhir_immunization(immunization_id: str):
     immunization = immunization_repo.get(immunization_id)
     if not immunization:
