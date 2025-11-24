@@ -1,0 +1,47 @@
+{
+  "state": "Pennsylvania",
+  "provider": {
+    "providerId": "PA-PROV-005",
+    "name": "Dr. Robert Chen",
+    "npi": "4455667788",
+    "organization": "York Medical Center",
+    "address": "55 Hospital Dr, York, PA",
+    "phone": "717-555-0505"
+  },
+  "patient": {
+    "patientId": "PA1005",
+    "firstName": "Avery",
+    "lastName": "Cooper",
+    "DOB": "2018-12-05",
+    "gender": "non-binary",
+    "address": "9 Elm St, York, PA",
+    "phone": "717-555-5555",
+    "email": "avery.cooper@example.com"
+  },
+  "immunizations": [
+    {
+      "recordId": "PA-IMM-1006",
+      "vaccineCode": "88",
+      "vaccineName": "Tetanus-diphtheria",
+      "status": "completed",
+      "dateAdministered": "2020-09-10",
+      "lotNumber": "PA-TD-9900",
+      "site": "Left Arm",
+      "route": "IM",
+      "doseQuantity": "0.5 mL",
+      "notes": "Pediatric schedule"
+    },
+    {
+      "recordId": "PA-IMM-1007",
+      "vaccineCode": "140",
+      "vaccineName": "Hepatitis B",
+      "status": "completed",
+      "dateAdministered": "2018-12-05",
+      "lotNumber": "PA-HB-4400",
+      "site": "Right Thigh",
+      "route": "IM",
+      "doseQuantity": "0.5 mL",
+      "notes": "Birth dose"
+    }
+  ]
+}

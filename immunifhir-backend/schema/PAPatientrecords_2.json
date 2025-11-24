@@ -1,0 +1,47 @@
+{
+  "state": "Pennsylvania",
+  "provider": {
+    "providerId": "PA-PROV-002",
+    "name": "Dr. Miguel Alvarez",
+    "npi": "1098765432",
+    "organization": "Allegheny Care",
+    "address": "200 Grant St, Pittsburgh, PA",
+    "phone": "412-555-0202"
+  },
+  "patient": {
+    "patientId": "PA1002",
+    "firstName": "David",
+    "lastName": "Nguyen",
+    "DOB": "1978-11-02",
+    "gender": "male",
+    "address": "101 Oak Dr, Pittsburgh, PA",
+    "phone": "412-555-2222",
+    "email": "david.nguyen@example.com"
+  },
+  "immunizations": [
+    {
+      "recordId": "PA-IMM-1002",
+      "vaccineCode": "140",
+      "vaccineName": "Hepatitis B",
+      "status": "completed",
+      "dateAdministered": "2023-10-01",
+      "lotNumber": "PA-HB-2234",
+      "site": "Left Arm",
+      "route": "IM",
+      "doseQuantity": "1.0 mL",
+      "notes": "Standard administration"
+    },
+    {
+      "recordId": "PA-IMM-1003",
+      "vaccineCode": "33",
+      "vaccineName": "MMR",
+      "status": "completed",
+      "dateAdministered": "2022-05-22",
+      "lotNumber": "PA-MMR-5566",
+      "site": "Right Arm",
+      "route": "SC",
+      "doseQuantity": "0.5 mL",
+      "notes": "Childhood immunization"
+    }
+  ]
+}

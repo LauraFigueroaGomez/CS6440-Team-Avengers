@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<NJMockData state="New Jersey">
+  <Provider>
+    <ProviderID>PROV005</ProviderID>
+    <n>Dr. Maria Gonzalez</n>
+    <NPI>5566778899</NPI>
+    <Organization>Camden Pediatric Care</Organization>
+    <Address>5 River Rd, Camden, NJ</Address>
+    <Phone>856-555-7878</Phone>
+  </Provider>
+  <Patient>
+    <PatientID>PAT5001</PatientID>
+    <FirstName>Liam</FirstName>
+    <LastName>Walker</LastName>
+    <DOB>2016-10-02</DOB>
+    <Gender>Male</Gender>
+    <Address>22 Pine St, Camden, NJ</Address>
+    <Phone>856-555-8989</Phone>
+    <Email>liam.walker@example.com</Email>
+  </Patient>
+  <ImmunizationRecord>
+    <RecordID>IMM5001</RecordID>
+    <VaccineCode>49</VaccineCode>
+    <VaccineName>Polio</VaccineName>
+    <Status>completed</Status>
+    <DateAdministered>2017-11-05</DateAdministered>
+    <LotNumber>NJ-PO-5001</LotNumber>
+    <Site>Left Thigh</Site>
+    <Route>IM</Route>
+    <DoseQuantity>0.5 mL</DoseQuantity>
+    <Notes>Pediatric schedule</Notes>
+  </ImmunizationRecord>
+</NJMockData>"

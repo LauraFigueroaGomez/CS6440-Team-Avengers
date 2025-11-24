@@ -10,7 +10,7 @@
 
     <div v-if="loading" class="loading-container">
     <div class="spinner"></div>
-    <p>Loading patient data...</p>
+    <p>{{ loadingMessage }}</p>
   </div>
 
   <!-- Only render details if patient is loaded -->
@@ -99,6 +99,7 @@ export default {
     return {
       patient: null,
       loading: true,
+      loadingMessage: 'Aggregating immunization records from state registries...',
       sortColumn: null,
       sortDirection: 'asc',
       filterText: ''
@@ -106,8 +107,15 @@ export default {
   },
   async mounted() {
     this.loading = true
+    this.loadingMessage = 'Aggregating immunization records from state registries...'
+
     try {
       const patientId = this.$route.params.id
+
+      setTimeout(() => {
+        this.loadingMessage = 'Normalizing data from multiple states...'
+      }, 1000)
+
       this.patient = await getPatientDetails(patientId)
       console.log('Loaded patient details:', this.patient)
     } catch (err) {
