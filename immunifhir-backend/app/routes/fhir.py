@@ -25,10 +25,11 @@ async def get_fhir_immunization(immunization_id: str):
     if not immunization:
         raise HTTPException(status_code=404, detail="Immunization not found")
 
-    patient_id = immunization.get("patient_id")
+    im_dict = immunization.dict()
+    patient_id = im_dict.get("patient_id")
     if not patient_id:
         raise HTTPException(status_code=400, detail="Immunization record missing patient_id")
 
     patient_ref = f"Patient/{patient_id}"
 
-    return fhir_service.immunization(immunization, patient_ref)
+    return fhir_service.immunization(im_dict, patient_ref)
