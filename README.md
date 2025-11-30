@@ -127,30 +127,31 @@ Features
 
 ## System Architecture
 
-sequenceDiagram
-    participant User
-    participant Frontend as Vue.js Frontend
-    participant Backend as FastAPI Backend
-    participant NY as NY Registry
-    participant NJ as NJ Registry
-    participant PA as PA Registry
+  ```mermaid
+  sequenceDiagram
+      participant User
+      participant Frontend as Vue.js Frontend
+      participant Backend as FastAPI Backend
+      participant NY as NY Registry
+      participant NJ as NJ Registry
+      participant PA as PA Registry
 
-    User->>Frontend: Enter patient name
-    Frontend->>Backend: POST /search-immunizations
-    
-    par Query all registries
-        Backend->>NY: GET /records
-        Backend->>NJ: GET /records
-        Backend->>PA: GET /records
-    end
-    
-    NY-->>Backend: NY immunization data
-    NJ-->>Backend: NJ immunization data
-    PA-->>Backend: PA immunization data
-    
-    Backend->>Backend: Aggregate results
-    Backend-->>Frontend: Combined records JSON
-    Frontend-->>User: Display immunization records
+      User->>Frontend: Enter patient name
+      Frontend->>Backend: POST /search-immunizations
+
+      par Query all registries
+          Backend->>NY: GET /records
+          Backend->>NJ: GET /records
+          Backend->>PA: GET /records
+      end
+
+      NY-->>Backend: NY immunization data
+      NJ-->>Backend: NJ immunization data
+      PA-->>Backend: PA immunization data
+
+      Backend->>Backend: Aggregate results
+      Backend-->>Frontend: Combined records JSON
+      Frontend-->>User: Display immunization records
 
 
 
