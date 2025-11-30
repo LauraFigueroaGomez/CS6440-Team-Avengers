@@ -53,6 +53,8 @@ Used for:
 - pip install -r requirements.txt
 - export SUPABASE_URL="askteam"
 - export SUPABASE_KEY="askteam"
+- export BYPASS_AUTH=true
+- export SUPABASE_JWT_AUD=authenticated
 - export JWT_SECRET=your_supabase_jwt_secret
 - uvicorn app.main:app --reload
 - The app will be available at http://127.0.0.1:8000
