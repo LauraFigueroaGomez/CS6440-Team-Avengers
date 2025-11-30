@@ -84,23 +84,43 @@ Features
 
 ## Test Data and Login Credentials
 
- Email: test@example.com
- Password: test123
+ Email: tester@testing.com
+ Password: Password1!
 
  Sample Patient Records (Available in all 3 states)
 
- 1. John Smith
-   - DOB: 1985-03-15
-   - MRN: PAT001
-   - Has 12 immunization records
- 2. Sarah Johnson
-   - DOB: 1990-07-22
-   - MRN: PAT002
-   - Has 10 immunization records
- 3. Michael Brown
-   - DOB: 1978-11-08
-   - MRN: PAT003
-   - Has 15 immunization records
+ 1. Trinity Han
+    - DOB: 1980-02-10 (02/10/1980)
+    - Search with: First name "Trinity", Last name "Han"
+    - Multiple immunization records across NY, NJ, PA
+ 2. Lorena Martinez
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "Lorena", Last name "Martinez"
+   - Vaccination history from multiple states
+ 3. John Doe
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "John", Last name "Doe"
+   - Common test patient with extensive records
+ 4. Patricia Garcia
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "Patricia", Last name "Garcia"
+   - Multi-state immunization history
+ 5. AG Lopez
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "AG", Last name "Lopez"
+   - Records from NY, NJ, and PA registries
+ 6. Mario Rivera
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "Mario", Last name "Rivera"
+   - Complete vaccination records
+ 7. Margarita Doe
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "Margarita", Last name "Doe"
+   - Test patient with multi-state data
+ 8. Miguel Montana
+   - DOB: 1980-02-10 (02/10/1980)
+   - Search with: First name "Miguel", Last name "Montana"
+   - Comprehensive immunization history
 
 ## Production URLs
 Frontend: https://cs6440-team-avengers-1-frontend.onrender.com
