@@ -21,11 +21,11 @@ class PatientRepository:
         q = supabase.table(SEARCH_VIEW).select("*")
 
         if hasattr(query, "identifier") and query.identifier:
-            q = q.eq("identifier", query.identifier)
+            q = q.eq("identifier", query.identifier.strip())
         if query.first_name:
-            q = q.ilike("first_name", f"%{query.first_name}%")
+            q = q.ilike("first_name", f"%{query.first_name.strip()}%")
         if query.last_name:
-            q = q.ilike("last_name", f"%{query.last_name}%")
+            q = q.ilike("last_name", f"%{query.last_name.strip()}%")
         if query.birth_date:
             q = q.eq("birth_date", str(query.birth_date))
         res = q.execute()

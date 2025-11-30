@@ -13,6 +13,12 @@ const buildQueryString = (params = {}) =>
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     .join('&')
 
+export const formatDate = (dateStr) => {
+  if (!dateStr) return ''
+  const [year, month, day] = dateStr.split('-')
+  return `${month}/${day}/${year}`
+}
+
 export const apiRequest = async (method, path, { params, body } = {}) => {
   const token = await getAuthToken()
   console.log("TOKEN?", token ? "yes" : "no")
@@ -45,9 +51,9 @@ export const apiRequest = async (method, path, { params, body } = {}) => {
 export const searchPatients = async ({ firstName, lastName, dob }) => {
   const data = await apiRequest('GET', '/patients/search', {
     params: {
-      first_name: firstName,
-      last_name: lastName,
-      birth_date: dob
+      first_name: firstName?.trim(),
+      last_name: lastName?.trim(),
+      birth_date: dob?.trim()
     }
   })
 

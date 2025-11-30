@@ -2,10 +2,8 @@
   <div class="search-container">
     <header>
       <div class="logo">
-        <div>
-          <h1>ImmuniFHIR</h1>
-          <span>Multi-State Registry Access</span>
-        </div>
+        <h1>ImmuniFHIR</h1>
+        <span>Multi-State Registry Access</span>
       </div>
       <button @click="handleLogout" class="logout-btn" :disabled="loggingOut">
         {{ loggingOut ? 'Logging out...' : 'Log Out' }}
@@ -63,7 +61,16 @@
         </div>
         <p>Found {{ searchResults.length }} patients matching your search</p>
 
-        <table>
+        <div v-if="errorMessage" class="error-box">
+          <p>{{ errorMessage }}</p>
+        </div>
+
+        <div v-else-if="searchResults.length === 0" class="no-results">
+          <p>No patients found</p>
+          <p class="hint">Try adjusting your search criteria</p>
+        </div>
+
+        <table v-else>
           <thead>
             <tr>
               <th>Patient Name</th>
@@ -76,7 +83,7 @@
           <tbody>
             <tr v-for="patient in searchResults" :key="patient.id">
               <td>{{ patient.lastName }}, {{ patient.firstName }}</td>
-              <td>{{ patient.dob }}</td>
+              <td>{{ formatDate(patient.dob) }}</td>
               <td>{{ patient.recordCount }}</td>
               <td>NY, NJ, PA</td>
               <td>
@@ -91,7 +98,7 @@
 </template>
 
 <script>
-import { searchPatients } from '../lib/api'
+import { searchPatients, formatDate } from '../lib/api'
 import { logout } from '../lib/auth'
 
 export default {
@@ -103,18 +110,51 @@ export default {
       showResults: false,
       searchResults: [],
       loading: false,
-      loggingOut: false
+      loggingOut: false,
+      errorMessage: ''
+    }
+  },
+  mounted() {
+    const saved = sessionStorage.getItem('searchState')
+    if (saved) {
+      const data = JSON.parse(saved)
+      this.firstName = data.firstName || ''
+      this.lastName = data.lastName || ''
+      this.dob = data.dob || ''
+      this.showResults = data.showResults || false
+      this.searchResults = data.searchResults || []
     }
   },
   methods: {
     async handleSearch() {
-      if (!this.firstName && !this.lastName && !this.dob) {
-        alert('Please enter at least one search field')
+      // Basic validation
+      const hasFirstName = this.firstName && this.firstName.trim()
+      const hasLastName = this.lastName && this.lastName.trim()
+      const hasDob = this.dob && this.dob.trim()
+
+      if (!hasFirstName && !hasLastName && !hasDob) {
+        this.errorMessage = 'Please enter at least one search field'
+        this.showResults = true
+        return
+      }
+
+      // Check for minimum length for name fields
+      if (hasFirstName && this.firstName.trim().length < 2) {
+        this.errorMessage = 'First name must be at least 2 characters'
+        this.showResults = true
+        return
+      }
+
+      if (hasLastName && this.lastName.trim().length < 2) {
+        this.errorMessage = 'Last name must be at least 2 characters'
+        this.showResults = true
         return
       }
 
       this.loading = true
       this.showResults = false
+      this.searchResults = []
+      this.errorMessage = ''
 
       try {
         const patients = await searchPatients({
@@ -125,9 +165,18 @@ export default {
 
         this.searchResults = patients
         this.showResults = true
+
+        sessionStorage.setItem('searchState', JSON.stringify({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          dob: this.dob,
+          showResults: this.showResults,
+          searchResults: this.searchResults
+        }))
       } catch (err) {
         console.error(err)
-        alert('Error searching patients. Check the console for details.')
+        this.errorMessage = 'Failed to search patients. Please try again.'
+        this.showResults = true
       } finally {
         this.loading = false
       }
@@ -138,6 +187,7 @@ export default {
       this.dob = ''
       this.searchResults = []
       this.showResults = false
+      sessionStorage.removeItem('searchState')
     },
     handleRowClick(patient) {
       this.$router.push(`/patient/${patient.id}`)
@@ -146,14 +196,24 @@ export default {
       this.$router.push('/patient/' + patientId)
     },
     async handleLogout() {
+      if (!confirm('Are you sure you want to log out?')) {
+        return
+      }
       this.loggingOut = true
       try {
+        // Clear search state before logging out
+        sessionStorage.removeItem('searchState')
         await logout()
         this.$router.push('/')
       } finally {
         this.loggingOut = false
       }
     },
+    formatDate(dateStr) {
+      if (!dateStr) return ''
+      const [year, month, day] = dateStr.split('-')
+      return `${month}/${day}/${year}`
+    }
   }
 }
 </script>
@@ -396,6 +456,35 @@ td button {
   border: none;
   cursor: pointer;
   border-radius: 4px;
+}
+
+.error-box {
+  text-align: center;
+  padding: 40px;
+  background: #ffeeee;
+  border: 1px solid #ffcccc;
+}
+
+.error-box p {
+  color: red;
+  font-weight: bold;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  background: #ffeeee;
+  border: 1px solid #ffcccc;
+}
+
+.no-results p {
+  color: red;
+  font-weight: bold;
+}
+
+.no-results .hint {
+  color: #666;
+  font-weight: normal;
 }
 
 @media (max-width: 640px) {

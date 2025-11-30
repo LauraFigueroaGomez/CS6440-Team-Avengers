@@ -2,10 +2,13 @@
   <div class="details-container">
     <header>
       <button @click="goBack" class="back-btn">←</button>
-      <div>
+      <div class="logo">
         <h1>ImmuniFHIR</h1>
         <span>Patient Details</span>
       </div>
+      <button @click="handleLogout" class="logout-btn" :disabled="loggingOut">
+        {{ loggingOut ? 'Logging out...' : 'Log Out' }}
+      </button>
     </header>
 
     <div v-if="loading" class="loading-container">
@@ -18,7 +21,7 @@
     <div class="patient-header">
       <div class="patient-info">
         <h2>{{ patient.lastName }}, {{ patient.firstName }}</h2>
-        <p>DOB: {{ patient.dob }} (Age {{ patient.age }})</p>
+        <p>DOB: {{ formatDate(patient.dob) }} (Age {{ patient.age }})</p>
         <p>Gender: {{ patient.gender }}</p>
         <p>MRN: {{ patient.mrn }}</p>
         <p>{{ patient.address }}</p>
@@ -39,14 +42,13 @@
     </div>
 
     <div class="history-section">
-      <h3>Immunization History ({{ patient.immunizations.length }} records)</h3>
-
-      <div style="margin-bottom: 15px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0;">Immunization History ({{ patient.immunizations.length }} records)</h3>
         <input
           v-model="filterText"
           type="text"
-          placeholder="Filter by vaccine, provider, location..."
-          style="width: 300px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+          placeholder="Filter records..."
+          style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; background: white; color: #333;"
         />
       </div>
 
@@ -92,7 +94,8 @@
 </template>
 
 <script>
-import { getPatientDetails } from '../lib/api'
+import { getPatientDetails, formatDate } from '../lib/api'
+import { logout } from '../lib/auth'
 
 export default {
   data() {
@@ -102,7 +105,8 @@ export default {
       loadingMessage: 'Aggregating immunization records from state registries...',
       sortColumn: null,
       sortDirection: 'asc',
-      filterText: ''
+      filterText: '',
+      loggingOut: false
     }
   },
   async mounted() {
@@ -129,6 +133,21 @@ export default {
     goBack() {
       this.$router.push('/search')
     },
+    async handleLogout() {
+      if (!confirm('Are you sure you want to log out?')) {
+        return
+      }
+      this.loggingOut = true
+      try {
+        // Clear search state before logging out
+        sessionStorage.removeItem('searchState')
+        await logout()
+        this.$router.push('/')
+      } finally {
+        this.loggingOut = false
+      }
+    },
+    formatDate,
     sortTable(column) {
       if (this.sortColumn === column) {
         this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc'
@@ -147,10 +166,15 @@ export default {
       if (this.filterText) {
         const searchText = this.filterText.toLowerCase()
         records = records.filter(r =>
+          (r.date || '').toLowerCase().includes(searchText) ||
           (r.vaccine || '').toLowerCase().includes(searchText) ||
+          (r.manufacturer || '').toLowerCase().includes(searchText) ||
+          (r.dose || '').toLowerCase().includes(searchText) ||
+          (r.lot || '').toLowerCase().includes(searchText) ||
           (r.provider || '').toLowerCase().includes(searchText) ||
           (r.location || '').toLowerCase().includes(searchText) ||
-          (r.state || '').toLowerCase().includes(searchText)
+          (r.state || '').toLowerCase().includes(searchText) ||
+          (r.status || '').toLowerCase().includes(searchText)
         )
       }
 
@@ -193,13 +217,12 @@ header {
   padding: 15px;
   margin-bottom: 20px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
 }
 
-header div {
+.logo {
   text-align: center;
-  flex: 1;
 }
 
 header h1 {
@@ -246,6 +269,21 @@ header span {
   cursor: pointer;
   color: #333;
   font-size: 20px;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  color: #333;
+  font-size: 14px;
+}
+
+.logout-btn:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+  color: #9ca3af;
 }
 
 .state-cards {

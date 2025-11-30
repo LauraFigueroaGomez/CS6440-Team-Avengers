@@ -13,6 +13,8 @@ export const getAuthToken = async () => {
 }
 
 export const logout = async () => {
+  // Clear any stored session data
+  sessionStorage.clear()
   await supabase.auth.signOut()
 }
 
