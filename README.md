@@ -32,7 +32,7 @@ This README includes:
 
 ## Test Data
 📍 Location:
-/schema/
+ CS6440-Team-Avengers/immunifhir-backend/schema
 
 Includes:
 - HL7 sample VXU messages (NY, NJ, PA)
