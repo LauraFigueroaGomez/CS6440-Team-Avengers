@@ -3,25 +3,25 @@
 **Team Avengers**
 
 ---
-## Production URLs - ACCESS APPLICATION HERE 
+## Production URLs—ACCESS APPLICATION HERE 
 Frontend: https://cs6440-team-avengers-1-frontend.onrender.com
 Backend: https://cs6440-team-avengers-1-backend.onrender.com
 
-## 📖 Project Overview
+## Project Overview
 ImmuniFHIR is a multi-state immunization aggregation platform developed for CS 6440 (Team Avengers).
 The system retrieves immunization data from mock state registries (NY, NJ, PA), parses HL7 v2.x messages, normalizes them, persists data in Supabase, and presents the results through a secure Vue.js frontend.
 
 This README includes:
-- ✅ Backend documentation
-- ✅ Frontend documentation
-- ✅ Architecture diagram
-- ✅ Mockups
-- ✅ Test data location
-- ✅ Setup & deployment instructions
+- Backend documentation
+- Frontend documentation
+- Architecture diagram
+- Mockups
+- Test data location
+- Setup & deployment instructions
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 - **Language:** Python 3.10  
 - **Framework Backend:** FastAPI
@@ -34,7 +34,7 @@ This README includes:
 ---
 
 ## Test Data
-📍 Location:
+ Location:
  CS6440-Team-Avengers/immunifhir-backend/schema
 
 Includes:
@@ -42,14 +42,13 @@ Includes:
 - Test patients
 
 Used for:
-
 - HL7 → JSON → FHIR testing
 - Unit tests
 - Aggregation validation
 
 ---
 
-## 🚀 Running the Backend App Locally
+## Running the Backend App Locally
 - cd immunifhir-backend 
 - python -m venv venv
 - source venv/bin/activate
@@ -64,13 +63,12 @@ Used for:
 
 ---
 
-## Front-end Dcoumentation 
+## Front-end Documentation 
 Front-End Stack: Vue.js, Pinia, Vite
 
 Features
-
 - Multi-State Search: Query immunization records across NY, NJ, and PA simultaneously
-- Live Aggregation: Real-time data fetching from state registries (not cached)
+- Live Aggregation: Real-time data fetched from state registries (not cached)
 - Patient Management: Search patients by name and date of birth
 - Immunization History: View complete vaccination records with sorting and filtering
 - State Summary: See record counts per state registry
@@ -90,7 +88,7 @@ Features
  Email: tester@testing.com
  Password: Password1!
 
- Sample Patient Records (Available in all 3 states)
+ Sample Patient Records (Available in all three states)
 
  1. Trinity Han
     - DOB: 1980-02-10 (02/10/1980)
