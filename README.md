@@ -4,8 +4,8 @@
 
 ---
 ## Production URLs—ACCESS APPLICATION HERE 
-Frontend: https://cs6440-team-avengers-1-frontend.onrender.com
-Backend: https://cs6440-team-avengers-1-backend.onrender.com
+- Frontend: https://cs6440-team-avengers-1-frontend.onrender.com
+- Backend: https://cs6440-team-avengers-1-backend.onrender.com
 
 ## Project Overview
 ImmuniFHIR is a multi-state immunization aggregation platform developed for CS 6440 (Team Avengers).
