@@ -5,6 +5,7 @@
 ---
 ## Production URLs—ACCESS APPLICATION HERE 
 - Frontend: https://cs6440-team-avengers-1-frontend.onrender.com
+-  HEADS UP - Since this is on the free plan of render, when a user clicks on the FE to try the product, they will have to wait 1-2 minutes for the render to go up. All statuses will be present to show user progress until they can access the official app. Thank you for your patience! 
 - Backend: https://cs6440-team-avengers-1-backend.onrender.com
 
 ## Project Overview
