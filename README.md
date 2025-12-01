@@ -11,6 +11,8 @@
 ImmuniFHIR is a multi-state immunization aggregation platform developed for CS 6440 (Team Avengers).
 The system retrieves immunization data from mock state registries (NY, NJ, PA), parses HL7 v2.x messages, normalizes them, persists data in Supabase, and presents the results through a secure Vue.js frontend.
 
+![alt text](ArchitectureDiagram.png "ArchitectureDiagram")
+
 This README includes:
 - Backend documentation
 - Frontend documentation
